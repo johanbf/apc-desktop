@@ -6,6 +6,11 @@ package com.mycompany.apc.sistema.Views;
 
 import com.mycompany.apc.sistema.Controllers.ClienteController;
 import com.mycompany.apc.sistema.Controllers.CotizacionController;
+import com.mycompany.apc.sistema.Models.Cotizacion;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,6 +20,7 @@ public class CotizacionView extends javax.swing.JFrame {
 
     ClienteController clienteController = new ClienteController();
     CotizacionController cotizacionController = new CotizacionController();
+     Cotizacion cotizacion = new Cotizacion();
     
     /**
      * Creates new form CotizacionView
@@ -22,10 +28,15 @@ public class CotizacionView extends javax.swing.JFrame {
     public CotizacionView() {
         initComponents();
         this.setLocationRelativeTo(null);
+        DefaultTableModel model = new DefaultTableModel();              
+        cotizacionController.listarCotizaciones(model, ListaCotizaciones);
         clienteController.listarClientes(clienteSelect);
         String correlativo = cotizacionController.generarCorrelativo();
         txtCodigo.setText(correlativo);
         cotizacionController.listarEstadoCotizacion(selectEstado);
+        Date fecha = new Date();
+        fecha_inicio.setDate(fecha);
+        fecha_fin.setDate(fecha);
     }
 
     /**
@@ -41,21 +52,21 @@ public class CotizacionView extends javax.swing.JFrame {
         clienteSelect = new javax.swing.JComboBox<>();
         btnNuevoCliente = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         selectEstado = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        fecha_inicio = new com.toedter.calendar.JDateChooser();
+        fecha_fin = new com.toedter.calendar.JDateChooser();
         btnGuardarCotizacion = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        ListaCotizaciones = new javax.swing.JTable();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnDetalle = new javax.swing.JButton();
@@ -75,6 +86,8 @@ public class CotizacionView extends javax.swing.JFrame {
 
         jLabel3.setText("Código Cotización");
 
+        txtCodigo.setEnabled(false);
+
         jLabel4.setText("Estado");
 
         jLabel5.setText("Fecha Inicio");
@@ -82,43 +95,68 @@ public class CotizacionView extends javax.swing.JFrame {
         jLabel6.setText("Fecha Fin");
 
         btnGuardarCotizacion.setText("Guardar");
+        btnGuardarCotizacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarCotizacionActionPerformed(evt);
+            }
+        });
 
         btnRegresar.setText("Regresar");
 
         jButton1.setText("Cancelar");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        ListaCotizaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Correlativo", "Nombre", "Cliente", "Estado", "Fecha Inicio", "Fecha Fin"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        ListaCotizaciones.getTableHeader().setReorderingAllowed(false);
+        ListaCotizaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ListaCotizacionesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(ListaCotizaciones);
+        if (ListaCotizaciones.getColumnModel().getColumnCount() > 0) {
+            ListaCotizaciones.getColumnModel().getColumn(0).setResizable(false);
+            ListaCotizaciones.getColumnModel().getColumn(1).setResizable(false);
+            ListaCotizaciones.getColumnModel().getColumn(2).setResizable(false);
+            ListaCotizaciones.getColumnModel().getColumn(3).setResizable(false);
+            ListaCotizaciones.getColumnModel().getColumn(4).setResizable(false);
+            ListaCotizaciones.getColumnModel().getColumn(5).setResizable(false);
         }
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnDetalle.setText("Detalle");
+        btnDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetalleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,26 +168,22 @@ public class CotizacionView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
+                            .addComponent(txtNombre)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(clienteSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0))
+                                        .addComponent(btnNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel2)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel4)
-                                                    .addComponent(selectEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel5))))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(jLabel4)
+                                            .addComponent(selectEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(fecha_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5))))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(97, 97, 97)
@@ -157,7 +191,7 @@ public class CotizacionView extends javax.swing.JFrame {
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtCodigo, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jDateChooser2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)))))
+                                        .addComponent(fecha_fin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)))))
                         .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -192,7 +226,7 @@ public class CotizacionView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -215,8 +249,8 @@ public class CotizacionView extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(fecha_inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fecha_fin, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarCotizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,6 +278,51 @@ public class CotizacionView extends javax.swing.JFrame {
         nuevoClienteView.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnNuevoClienteActionPerformed
+
+    private void btnGuardarCotizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCotizacionActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat ff = new SimpleDateFormat("yyyy-MM-dd");
+        String nombre = txtNombre.getText();
+        if(nombre.equals("")){
+            JOptionPane.showMessageDialog(null, "Nombre de la cotización se encuenta vacío", "Error", JOptionPane.ERROR_MESSAGE);           
+        }
+        String fechaInicio = ff.format(fecha_inicio.getCalendar().getTime());
+        String fechaFin = ff.format(fecha_fin.getCalendar().getTime());
+        String cliente = clienteSelect.getSelectedItem().toString();
+        String estado = selectEstado.getSelectedItem().toString();
+        String correlativo = cotizacionController.crearCotizacion(cliente, estado, nombre, fechaInicio, fechaFin);
+        if(correlativo != null){
+            DetalleCotizaciónView cotizaciónView = new DetalleCotizaciónView(correlativo);
+            cotizaciónView.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnGuardarCotizacionActionPerformed
+
+    private void ListaCotizacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaCotizacionesMouseClicked
+        // TODO add your handling code here:
+        int fila = ListaCotizaciones.getSelectedRow();
+        if(fila == -1){
+            JOptionPane.showMessageDialog(null, "Cotización no seleccionado","Error",JOptionPane.ERROR_MESSAGE);
+        }else{
+            String correlativo = (String)ListaCotizaciones.getValueAt(fila, 0);      
+            cotizacion.setCorrelativo(correlativo);
+        }
+    }//GEN-LAST:event_ListaCotizacionesMouseClicked
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalleActionPerformed
+        // TODO add your handling code here:
+        DetalleCotizaciónView detalleCotizaciónView = new DetalleCotizaciónView(cotizacion.getCorrelativo());
+        detalleCotizaciónView.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDetalleActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,6 +360,7 @@ public class CotizacionView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable ListaCotizaciones;
     private javax.swing.JButton btnDetalle;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
@@ -288,9 +368,9 @@ public class CotizacionView extends javax.swing.JFrame {
     private javax.swing.JButton btnNuevoCliente;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> clienteSelect;
+    private com.toedter.calendar.JDateChooser fecha_fin;
+    private com.toedter.calendar.JDateChooser fecha_inicio;
     private javax.swing.JButton jButton1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -299,9 +379,8 @@ public class CotizacionView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JComboBox<String> selectEstado;
     private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

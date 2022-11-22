@@ -12,6 +12,9 @@ public class Servicio {
     private int id;
     private String nombre;
 
+    public Servicio() {
+    }
+
     public Servicio(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;

@@ -19,6 +19,9 @@ public class ClienteDAO {
     Connection con;
     PreparedStatement preparedStatement;
     ResultSet rows;
+
+    public ClienteDAO() {
+    }
     
     public List ListarClientes(){
         List<Cliente> clientes = new ArrayList<>();
@@ -43,6 +46,51 @@ public class ClienteDAO {
             System.out.println("Error al recuperar consulta "+e);
             return null;
         }        
+    }
+    
+    public Cliente clienteNombre(String nombre){
+        try {
+            con = conectar.conectar();
+            preparedStatement = con.prepareStatement("SELECT * FROM cliente WHERE nombre = ?");
+            preparedStatement.setString(1, nombre);
+            rows = preparedStatement.executeQuery();
+            while (rows.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setId(Integer.parseInt( rows.getString("id")));
+                return cliente;
+            }
+            rows.close();
+            conectar.cerrarConexion();
+            return null;
+        } catch (Exception e) {
+            System.out.println("Error al recuperar consulta "+e);
+            return null;
+        }
+    }
+     
+    public Cliente clienteId(int Id){
+        try {
+            con = conectar.conectar();
+            preparedStatement = con.prepareStatement("SELECT * FROM cliente WHERE id = ?");
+            preparedStatement.setInt(1, Id);
+            rows = preparedStatement.executeQuery();
+            while (rows.next()) {
+                Cliente cliente = new Cliente();
+                TipoClienteDAO tipoClienteDAO = new TipoClienteDAO();
+                TipoCliente tipoCliente = tipoClienteDAO.tipoClienteId(Integer.parseInt( rows.getString("id_tipo_cliente")));
+                cliente.setId(Integer.parseInt( rows.getString("id")));
+                cliente.setNombre(rows.getString("nombre"));
+                cliente.setTelefono(Integer.parseInt(rows.getString("telefono")));
+                cliente.setTipoCliente(tipoCliente);
+                return cliente;
+            }
+            rows.close();
+            conectar.cerrarConexion();
+            return null;
+        } catch (Exception e) {
+            System.out.println("Error al recuperar consulta "+e);
+            return null;
+        }
     }
     
     public boolean guardarCliente(String nombre, String direccion, String telefono, String tipoCliente){

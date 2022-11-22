@@ -20,7 +20,7 @@ public class ClienteController {
     public void listarClientes(JComboBox<String> clienteSelect){        
         List<Cliente> lista = clienteDAO.ListarClientes();
         for(int i = 0; i < lista.size(); i++){
-            System.out.println("" + lista.get(i).getNombre());
+            //System.out.println("" + lista.get(i).getNombre());
             clienteSelect.addItem(lista.get(i).getNombre());
         }                
     }

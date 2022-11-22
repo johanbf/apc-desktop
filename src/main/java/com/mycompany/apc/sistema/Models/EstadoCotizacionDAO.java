@@ -41,4 +41,45 @@ public class EstadoCotizacionDAO {
         }
     }
     
+     public EstadoCotizacion estadoNombre(String nombre){
+        try {
+            con = conectar.conectar();
+            preparedStatement = con.prepareStatement("SELECT * FROM estado_cotizacion WHERE nombre = ?");
+            preparedStatement.setString(1, nombre);
+            rows = preparedStatement.executeQuery();
+            while (rows.next()) {
+                EstadoCotizacion cotizacion = new EstadoCotizacion();
+                cotizacion.setId(Integer.parseInt( rows.getString("id")));
+                return cotizacion;
+            }
+            rows.close();
+            conectar.cerrarConexion();
+            return null;
+        } catch (Exception e) {
+            System.out.println("Error al recuperar consulta "+e);
+            return null;
+        }
+    }
+     
+    public EstadoCotizacion estadoId(int id){
+        try {
+            con = conectar.conectar();
+            preparedStatement = con.prepareStatement("SELECT * FROM estado_cotizacion WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            rows = preparedStatement.executeQuery();
+            while (rows.next()) {
+                EstadoCotizacion cotizacion = new EstadoCotizacion();
+                cotizacion.setId(Integer.parseInt( rows.getString("id")));
+                cotizacion.setNombre_ec(rows.getString("nombre"));
+                return cotizacion;
+            }
+            rows.close();
+            conectar.cerrarConexion();
+            return null;
+        } catch (Exception e) {
+            System.out.println("Error al recuperar consulta "+e);
+            return null;
+        }
+    }
+    
 }

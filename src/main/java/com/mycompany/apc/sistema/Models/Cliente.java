@@ -66,5 +66,9 @@ public class Cliente {
         this.telefono = telefono;
     }
 
+    Cliente clienteId(int parseInt) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 
 }
