@@ -36,29 +36,35 @@
                                       <Component id="clienteSelect" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnNuevoCliente" min="-2" pref="112" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                          <Component id="selectEstado" min="-2" pref="246" max="-2" attributes="0"/>
+                                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="selectEstado" min="-2" pref="246" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jDateChooser1" min="-2" pref="276" max="-2" attributes="0"/>
+                                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="fecha_inicio" min="-2" pref="276" max="-2" attributes="0"/>
-                                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="txtCodigo" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="fecha_fin" alignment="1" pref="288" max="32767" attributes="0"/>
+                                      <Component id="jDateChooser2" alignment="1" pref="288" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -136,8 +142,8 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="fecha_inicio" min="-2" pref="36" max="-2" attributes="0"/>
-                          <Component id="fecha_fin" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="jDateChooser1" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="jDateChooser2" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -230,9 +236,9 @@
         <Property name="text" type="java.lang.String" value="Fecha Fin"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="fecha_inicio">
+    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="fecha_fin">
+    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
     </Component>
     <Component class="javax.swing.JButton" name="btnGuardarCotizacion">
       <Properties>
